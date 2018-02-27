@@ -34,8 +34,7 @@ App.PreloadState = {
     this.load.image('text_gameover', '/assets/images/hud/text_gameover.png');
     this.load.image('text_go', '/assets/images/hud/text_go.png');
     this.load.image('text_ready', '/assets/images/hud/text_ready.png');
-    //this.load.image('text_score', '/assets/images/hud/text_score.png');
-    this.load.image('textscore', '/assets/images/textscore.png');
+    this.load.image('text_score', '/assets/images/hud/text_score.png');
     this.load.image('text_score_small', '/assets/images/hud/text_score_small.png');
     this.load.image('text_timeup', '/assets/images/hud/text_timeup.png');
   },
