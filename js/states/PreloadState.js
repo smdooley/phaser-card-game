@@ -7,7 +7,7 @@ App.PreloadState = {
   preload: function() {
     this.load.spritesheet('deck', 'assets/images/deck.png', 80, 120, 53);
 
-    this.load.image('text_0', '/assets/images/hud/text-0.png');
+    this.load.image('text_0', '/assets/images/hud/text_0.png');
     this.load.image('text_1', '/assets/images/hud/text_1.png');
     this.load.image('text_2', '/assets/images/hud/text_2.png');
     this.load.image('text_3', '/assets/images/hud/text_3.png');
@@ -34,7 +34,8 @@ App.PreloadState = {
     this.load.image('text_gameover', '/assets/images/hud/text_gameover.png');
     this.load.image('text_go', '/assets/images/hud/text_go.png');
     this.load.image('text_ready', '/assets/images/hud/text_ready.png');
-    this.load.image('text_score', '/assets/images/hud/text-score.png');
+    this.load.image('text_score', '/assets/images/hud/text_score.png');
+    this.load.image('text-score', '/assets/images/hud/text-score.png');
     this.load.image('text_score_small', '/assets/images/hud/text_score_small.png');
     this.load.image('text_timeup', '/assets/images/hud/text_timeup.png');
   },

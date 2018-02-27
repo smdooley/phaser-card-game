@@ -28,7 +28,8 @@ App.GameState = {
 
   },
   createUI: function() {
-    this.text_score_small = this.add.sprite(0, 0, 'text_score_small');
+    //this.text_score_small = this.add.sprite(0, 0, 'text_score_small');
+    this.text_score_small = this.add.sprite(0, 0, 'text-score');
     this.text_dots_small = this.add.sprite(0, 0, 'text_dots_small').alignTo(this.text_score_small, Phaser.RIGHT_CENTER, 0);
     //this.text_score = this.add.sprite(0, 0, 'text_' + this.score + '_small').alignTo(this.text_dots_small, Phaser.RIGHT_CENTER, 0);
 
