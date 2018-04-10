@@ -14,15 +14,38 @@ App.GameState = {
     this.deck = [10,12,24,36,38,50,10,12,24,36,38,50];
     this.selectedCards = [];
     this.score = 0;
+
+    this.storage = {};
   },
   create: function() {
     this.cards = this.add.group();
     this.scores = this.add.group();
 
+    // array to store the current deck
+    this.storage.deck = [];
+
+    // array to store the removed cards
+    this.storage.removedCards = [];
+
+    // store the elapsed time
+    this.storage.elapsedTime = 0;
+
+    this.storage = this.getStorage();
+
+    // if(storage !== null && storage !== undefined && storage !== "undefined") {
+    //   this.deck = this.storage.deck;
+    // }
+
+    this.deck = this.storage.deck;
+
     this.createUI();
 
     this.shuffle(this.deck);
+
+    this.storage.deck = this.deck;
+
     this.deal();
+    this.removeCards();
   },
   update: function() {
 
@@ -69,11 +92,22 @@ App.GameState = {
       card.inputEnabled = true;
       card.events.onInputDown.add(this.selectCard, this);
 
+      card.data.index = i;
       card.data.flipped = false;
       card.data.isFlipping = false;
       card.data.pattern = this.deck[i];
 
       this.cards.add(card);
+    }
+  },
+  removeCards: function() {
+    var i, index, card;
+
+    for(i = 0; i < this.storage.removedCards.length; i++) {
+      index = this.storage.removedCards[i];
+      card = this.cards.children[index];
+
+      card.kill();
     }
   },
   selectCard: function(card) {
@@ -127,6 +161,7 @@ App.GameState = {
 
       // remove selected cards
       this.selectedCards.forEach(function(card){
+        this.storage.removedCards.push(card.data.index);
         card.kill();
       }, this);
 
@@ -177,6 +212,8 @@ App.GameState = {
     return (selectedCards[0].data.pattern === selectedCards[1].data.pattern);
   },
   gameOver: function() {
+    this.saveStorage();
+
     if(this.cards.countLiving() === 0) {
       this.game.state.start('CompleteState', true, false, this.score);
     }
@@ -198,5 +235,24 @@ App.GameState = {
       text_number = this.add.sprite(0, 0, 'text_' + item + '_small').alignTo(this.text_dots_small, Phaser.RIGHT_CENTER, index * 25);
       this.scores.add(text_number);
     }, this);
+  },
+  getStorage: function() {
+    var storage = localStorage.getItem('storage');
+
+    if(storage !== null && storage !== undefined && storage !== "undefined") {
+      storage = JSON.parse(storage);
+    }
+    else {
+      storage = {
+        deck: [],
+        removedCards: [],
+        elapsedTime: 0
+      };
+    }
+
+    return storage;
+  },
+  saveStorage: function() {
+    localStorage.setItem('storage', JSON.stringify(this.storage));
   }
 };
