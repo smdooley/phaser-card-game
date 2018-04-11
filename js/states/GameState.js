@@ -39,6 +39,7 @@ App.GameState = {
     // }
 
     this.deck = this.storage.deck;
+    this.score = this.storage.score;
 
     this.createUI();
 
@@ -55,7 +56,7 @@ App.GameState = {
     this.text_dots_small = this.add.sprite(0, 0, 'text_dots_small').alignTo(this.text_score_small, Phaser.RIGHT_CENTER, 0);
     //this.text_score = this.add.sprite(0, 0, 'text_' + this.score + '_small').alignTo(this.text_dots_small, Phaser.RIGHT_CENTER, 0);
 
-    this.updateScore(this.score);
+    this.updateScore(0);
   },
   shuffle: function(array) {
     var counter = array.length, temp, index;
@@ -218,7 +219,7 @@ App.GameState = {
 
       // clear local storage
       localStorage.clear();
-      
+
       // start complete state
       this.game.state.start('CompleteState', true, false, this.score);
     }
@@ -245,7 +246,8 @@ App.GameState = {
     var storage = {
       deck: this.deck,
       removedCards: [],
-      elapsedTime: 0
+      elapsedTime: 0,
+      score: 0
     };
 
     var tempStorage = localStorage.getItem('storage');
@@ -257,6 +259,8 @@ App.GameState = {
     return storage;
   },
   saveStorage: function() {
+    this.storage.score = this.score;
+
     localStorage.setItem('storage', JSON.stringify(this.storage));
   }
 };
