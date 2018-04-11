@@ -22,13 +22,15 @@ App.GameState = {
     this.scores = this.add.group();
 
     // array to store the current deck
-    this.storage.deck = [];
+    // this.storage.deck = [];
 
     // array to store the removed cards
-    this.storage.removedCards = [];
+    // this.storage.removedCards = [];
 
     // store the elapsed time
-    this.storage.elapsedTime = 0;
+    // this.storage.elapsedTime = 0;
+
+    this.shuffle(this.deck);
 
     this.storage = this.getStorage();
 
@@ -39,8 +41,6 @@ App.GameState = {
     this.deck = this.storage.deck;
 
     this.createUI();
-
-    this.shuffle(this.deck);
 
     this.storage.deck = this.deck;
 
@@ -215,6 +215,11 @@ App.GameState = {
     this.saveStorage();
 
     if(this.cards.countLiving() === 0) {
+
+      // clear local storage
+      localStorage.clear();
+      
+      // start complete state
       this.game.state.start('CompleteState', true, false, this.score);
     }
   },
@@ -237,17 +242,16 @@ App.GameState = {
     }, this);
   },
   getStorage: function() {
-    var storage = localStorage.getItem('storage');
+    var storage = {
+      deck: this.deck,
+      removedCards: [],
+      elapsedTime: 0
+    };
 
-    if(storage !== null && storage !== undefined && storage !== "undefined") {
-      storage = JSON.parse(storage);
-    }
-    else {
-      storage = {
-        deck: [],
-        removedCards: [],
-        elapsedTime: 0
-      };
+    var tempStorage = localStorage.getItem('storage');
+
+    if(tempStorage !== null && tempStorage !== undefined && tempStorage !== "undefined") {
+      storage = JSON.parse(tempStorage);
     }
 
     return storage;
