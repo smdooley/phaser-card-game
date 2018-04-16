@@ -14,15 +14,28 @@ App.GameState = {
     this.deck = [10,12,24,36,38,50,10,12,24,36,38,50];
     this.selectedCards = [];
     this.score = 0;
+
+    this.storage = {};
+
+    this.cardFlip = this.add.audio('card_flip');
   },
   create: function() {
     this.cards = this.add.group();
     this.scores = this.add.group();
 
+    this.shuffle(this.deck);
+
+    this.storage = this.getStorage();
+
+    this.deck = this.storage.deck;
+    this.score = this.storage.score;
+
     this.createUI();
 
-    this.shuffle(this.deck);
+    this.storage.deck = this.deck;
+
     this.deal();
+    this.removeCards();
   },
   update: function() {
 
@@ -32,7 +45,7 @@ App.GameState = {
     this.text_dots_small = this.add.sprite(0, 0, 'text_dots_small').alignTo(this.text_score_small, Phaser.RIGHT_CENTER, 0);
     //this.text_score = this.add.sprite(0, 0, 'text_' + this.score + '_small').alignTo(this.text_dots_small, Phaser.RIGHT_CENTER, 0);
 
-    this.updateScore(this.score);
+    this.updateScore(0);
   },
   shuffle: function(array) {
     var counter = array.length, temp, index;
@@ -69,11 +82,22 @@ App.GameState = {
       card.inputEnabled = true;
       card.events.onInputDown.add(this.selectCard, this);
 
+      card.data.index = i;
       card.data.flipped = false;
       card.data.isFlipping = false;
       card.data.pattern = this.deck[i];
 
       this.cards.add(card);
+    }
+  },
+  removeCards: function() {
+    var i, index, card;
+
+    for(i = 0; i < this.storage.removedCards.length; i++) {
+      index = this.storage.removedCards[i];
+      card = this.cards.children[index];
+
+      card.kill();
     }
   },
   selectCard: function(card) {
@@ -119,6 +143,8 @@ App.GameState = {
         }
     }, this);
 
+    this.cardFlip.play();
+
     flipTween.start();
   },
   checkPattern: function() {
@@ -127,6 +153,7 @@ App.GameState = {
 
       // remove selected cards
       this.selectedCards.forEach(function(card){
+        this.storage.removedCards.push(card.data.index);
         card.kill();
       }, this);
 
@@ -164,6 +191,8 @@ App.GameState = {
             card.data.flipped = false;
         }, this);
 
+        this.cardFlip.play();
+
         flipTween.start();
 
       }, this);
@@ -177,7 +206,14 @@ App.GameState = {
     return (selectedCards[0].data.pattern === selectedCards[1].data.pattern);
   },
   gameOver: function() {
+    this.saveStorage();
+
     if(this.cards.countLiving() === 0) {
+
+      // clear local storage
+      localStorage.clear();
+
+      // start complete state
       this.game.state.start('CompleteState', true, false, this.score);
     }
   },
@@ -198,5 +234,26 @@ App.GameState = {
       text_number = this.add.sprite(0, 0, 'text_' + item + '_small').alignTo(this.text_dots_small, Phaser.RIGHT_CENTER, index * 25);
       this.scores.add(text_number);
     }, this);
+  },
+  getStorage: function() {
+    var storage = {
+      deck: this.deck,
+      removedCards: [],
+      elapsedTime: 0,
+      score: 0
+    };
+
+    var tempStorage = localStorage.getItem('storage');
+
+    if(tempStorage !== null && tempStorage !== undefined && tempStorage !== "undefined") {
+      storage = JSON.parse(tempStorage);
+    }
+
+    return storage;
+  },
+  saveStorage: function() {
+    this.storage.score = this.score;
+
+    localStorage.setItem('storage', JSON.stringify(this.storage));
   }
 };
