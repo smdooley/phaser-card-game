@@ -37,6 +37,8 @@ App.PreloadState = {
     this.load.image('text_score', 'assets/images/hud/text_score.png');
     this.load.image('text_score_small', 'assets/images/hud/text_score_small.png');
     this.load.image('text_timeup', 'assets/images/hud/text_timeup.png');
+
+    this.load.audio('card_flip', ['assets/audio/240776__f4ngy__card-flip.mp3', 'assets/audio/240776__f4ngy__card-flip.ogg'])
   },
   create: function() {
     this.game.state.start('GameState');
