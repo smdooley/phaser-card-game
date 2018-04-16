@@ -21,22 +21,9 @@ App.GameState = {
     this.cards = this.add.group();
     this.scores = this.add.group();
 
-    // array to store the current deck
-    // this.storage.deck = [];
-
-    // array to store the removed cards
-    // this.storage.removedCards = [];
-
-    // store the elapsed time
-    // this.storage.elapsedTime = 0;
-
     this.shuffle(this.deck);
 
     this.storage = this.getStorage();
-
-    // if(storage !== null && storage !== undefined && storage !== "undefined") {
-    //   this.deck = this.storage.deck;
-    // }
 
     this.deck = this.storage.deck;
     this.score = this.storage.score;
