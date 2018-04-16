@@ -16,6 +16,8 @@ App.GameState = {
     this.score = 0;
 
     this.storage = {};
+
+    this.cardFlip = this.add.audio('card_flip');
   },
   create: function() {
     this.cards = this.add.group();
@@ -141,6 +143,8 @@ App.GameState = {
         }
     }, this);
 
+    this.cardFlip.play();
+
     flipTween.start();
   },
   checkPattern: function() {
@@ -186,6 +190,8 @@ App.GameState = {
             card.data.isFlipping = false;
             card.data.flipped = false;
         }, this);
+
+        this.cardFlip.play();
 
         flipTween.start();
 
