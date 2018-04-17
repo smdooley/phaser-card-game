@@ -260,7 +260,15 @@ App.GameState = {
       localStorage.clear();
 
       // start complete state
-      this.game.state.start('CompleteState', true, false, this.score);
+      //this.game.state.start('CompleteState', true, false, this.score);
+      this.game.state.start(
+        'CompleteState', 
+        true, 
+        false, 
+        { 
+          "score": this.score, 
+          "elapsedTime": this.elapsedTime 
+        });
     }
   },
   updateScore: function(value) {
