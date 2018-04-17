@@ -10,6 +10,7 @@ App.GameState = {
     this.FRAME_DEFAULT = 52;
     this.GRID_ROWS = 4;
     this.GRID_COLUMNS = 3;
+    this.MAX_SECONDS = 60;
 
     this.deck = [10,12,24,36,38,50,10,12,24,36,38,50];
     this.selectedCards = [];
@@ -24,7 +25,7 @@ App.GameState = {
     this.cards = this.add.group();
     this.scores = this.add.group();
 
-    this.timer = this.game.time.events.loop(Phaser.Timer.SECOND, this.tick, this);
+    this.gameTimer = this.game.time.events.loop(Phaser.Timer.SECOND, this.tick, this);
 
     this.shuffle(this.deck);
 
@@ -51,8 +52,13 @@ App.GameState = {
     // save elapsed time
     this.saveStorage();
 
-    // update clock
-    this.updateClock();
+    if(this.elapsedTime > this.MAX_SECONDS) {
+      this.gameOver();
+    }
+    else {
+      // update clock
+      this.updateClock();
+    }
   },
   updateClock: function() {
     // get remaining time
@@ -208,7 +214,9 @@ App.GameState = {
       this.updateScore(10);
 
       // check if all cards have been removed
-      this.gameOver();
+      if(this.cards.countLiving() === 0) {
+        this.gameOver();
+      }
     }
     else {
       // turn selected cards face down
@@ -252,9 +260,10 @@ App.GameState = {
     return (selectedCards[0].data.pattern === selectedCards[1].data.pattern);
   },
   gameOver: function() {
-    this.saveStorage();
+    //if(this.cards.countLiving() === 0) {
 
-    if(this.cards.countLiving() === 0) {
+      // remove timer
+      this.game.time.events.remove(this.gameTimer);
 
       // clear local storage
       localStorage.clear();
@@ -269,7 +278,7 @@ App.GameState = {
           "score": this.score, 
           "elapsedTime": this.elapsedTime 
         });
-    }
+    //}
   },
   updateScore: function(value) {
 
