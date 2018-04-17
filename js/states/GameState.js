@@ -32,6 +32,7 @@ App.GameState = {
 
     this.deck = this.storage.deck;
     this.score = this.storage.score;
+    this.elapsedTime = this.storage.elapsedTime;
 
     this.createUI();
 
@@ -45,9 +46,12 @@ App.GameState = {
   },
   tick: function() {
     // update elapsed time
-    this.elapsedTime = this.timer.timer.seconds;
+    this.elapsedTime++;
+    
+    // save elapsed time
+    this.saveStorage();
 
-    //var time = this.secondsToTime(this.timer.timer.seconds);
+    // update clock
     this.updateClock();
   },
   updateClock: function() {
@@ -56,7 +60,6 @@ App.GameState = {
 
     // update time display
     //this.timeLabel.text = "Time: " + time.m + ":" + time.s;
-    console.log('time', time);
   },
   secondsToTime: function(seconds) {
     // round seconds for the following calculations
