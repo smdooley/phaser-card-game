@@ -5,9 +5,8 @@ App.CompleteState = {
     console.log('CompleteState', 'init');
 
     console.log('data', data);
-
-    this.elapsedTime = data.elapsedTime;
-    this.score = data.score;
+    
+    this.score = data.score * data.elapsedTime;
   },
   create: function() {
     var text_gameover = this.add.sprite(this.game.world.width / 2, this.game.world.height / 2, 'text_gameover');
