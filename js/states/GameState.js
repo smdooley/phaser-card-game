@@ -14,6 +14,7 @@ App.GameState = {
     this.deck = [10,12,24,36,38,50,10,12,24,36,38,50];
     this.selectedCards = [];
     this.score = 0;
+    this.elapsedTime = 0;
 
     this.storage = {};
 
@@ -22,6 +23,8 @@ App.GameState = {
   create: function() {
     this.cards = this.add.group();
     this.scores = this.add.group();
+
+    this.timer = this.game.time.events.loop(Phaser.Timer.SECOND, this.tick, this);
 
     this.shuffle(this.deck);
 
@@ -39,6 +42,46 @@ App.GameState = {
   },
   update: function() {
 
+  },
+  tick: function() {
+    // update elapsed time
+    this.elapsedTime = this.timer.timer.seconds;
+
+    //var time = this.secondsToTime(this.timer.timer.seconds);
+    this.updateClock();
+  },
+  updateClock: function() {
+    // get remaining time
+    var time = this.secondsToTime(this.elapsedTime);
+
+    // update time display
+    //this.timeLabel.text = "Time: " + time.m + ":" + time.s;
+    console.log('time', time);
+  },
+  secondsToTime: function(seconds) {
+    // round seconds for the following calculations
+    var secs = Math.round(seconds);
+
+    // calculate hour
+    var hours = Math.floor(secs / (60 * 60));
+
+    // calculate minutes
+    var divisor_for_minutes = secs % (60 * 60);
+    var minutes = Math.floor(divisor_for_minutes / 60);
+
+    // calculate seconds
+    var divisor_for_seconds = divisor_for_minutes % 60;
+    var seconds = Math.ceil(divisor_for_seconds);
+
+    // set time object
+    var obj = {
+        "h": "" + hours,
+        "m": (minutes < 10) ? "0" + minutes : "" + minutes,
+        "s": (seconds < 10) ? "0" + seconds : "" + seconds
+    };
+
+    // return time object
+    return obj;
   },
   createUI: function() {
     this.text_score_small = this.add.sprite(0, 0, 'text_score_small');
@@ -253,6 +296,7 @@ App.GameState = {
   },
   saveStorage: function() {
     this.storage.score = this.score;
+    this.storage.elapsedTime = this.elapsedTime;
 
     localStorage.setItem('storage', JSON.stringify(this.storage));
   }
