@@ -260,25 +260,22 @@ App.GameState = {
     return (selectedCards[0].data.pattern === selectedCards[1].data.pattern);
   },
   gameOver: function() {
-    //if(this.cards.countLiving() === 0) {
+    // remove timer
+    this.game.time.events.remove(this.gameTimer);
 
-      // remove timer
-      this.game.time.events.remove(this.gameTimer);
+    // clear local storage
+    localStorage.clear();
 
-      // clear local storage
-      localStorage.clear();
-
-      // start complete state
-      //this.game.state.start('CompleteState', true, false, this.score);
-      this.game.state.start(
-        'CompleteState', 
-        true, 
-        false, 
-        { 
-          "score": this.score, 
-          "elapsedTime": this.elapsedTime 
-        });
-    //}
+    // start complete state
+    //this.game.state.start('CompleteState', true, false, this.score);
+    this.game.state.start(
+      'CompleteState', 
+      true, 
+      false, 
+      { 
+        "score": this.score, 
+        "elapsedTime": this.elapsedTime 
+      });
   },
   updateScore: function(value) {
 
