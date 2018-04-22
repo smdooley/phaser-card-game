@@ -10,10 +10,12 @@ App.GameState = {
     this.FRAME_DEFAULT = 52;
     this.GRID_ROWS = 4;
     this.GRID_COLUMNS = 3;
+    this.MAX_SECONDS = 60;
 
     this.deck = [10,12,24,36,38,50,10,12,24,36,38,50];
     this.selectedCards = [];
     this.score = 0;
+    this.elapsedTime = 0;
 
     this.storage = {};
 
@@ -23,12 +25,15 @@ App.GameState = {
     this.cards = this.add.group();
     this.scores = this.add.group();
 
+    this.gameTimer = this.game.time.events.loop(Phaser.Timer.SECOND, this.tick, this);
+
     this.shuffle(this.deck);
 
     this.storage = this.getStorage();
 
     this.deck = this.storage.deck;
     this.score = this.storage.score;
+    this.elapsedTime = this.storage.elapsedTime;
 
     this.createUI();
 
@@ -39,6 +44,53 @@ App.GameState = {
   },
   update: function() {
 
+  },
+  tick: function() {
+    // update elapsed time
+    this.elapsedTime++;
+    
+    // save elapsed time
+    this.saveStorage();
+
+    if(this.elapsedTime > this.MAX_SECONDS) {
+      this.gameOver();
+    }
+    else {
+      // update clock
+      this.updateClock();
+    }
+  },
+  updateClock: function() {
+    // get remaining time
+    var time = this.secondsToTime(this.elapsedTime);
+
+    // update time display
+    //this.timeLabel.text = "Time: " + time.m + ":" + time.s;
+  },
+  secondsToTime: function(seconds) {
+    // round seconds for the following calculations
+    var secs = Math.round(seconds);
+
+    // calculate hour
+    var hours = Math.floor(secs / (60 * 60));
+
+    // calculate minutes
+    var divisor_for_minutes = secs % (60 * 60);
+    var minutes = Math.floor(divisor_for_minutes / 60);
+
+    // calculate seconds
+    var divisor_for_seconds = divisor_for_minutes % 60;
+    var seconds = Math.ceil(divisor_for_seconds);
+
+    // set time object
+    var obj = {
+        "h": "" + hours,
+        "m": (minutes < 10) ? "0" + minutes : "" + minutes,
+        "s": (seconds < 10) ? "0" + seconds : "" + seconds
+    };
+
+    // return time object
+    return obj;
   },
   createUI: function() {
     this.text_score_small = this.add.sprite(0, 0, 'text_score_small');
@@ -162,7 +214,9 @@ App.GameState = {
       this.updateScore(10);
 
       // check if all cards have been removed
-      this.gameOver();
+      if(this.cards.countLiving() === 0) {
+        this.gameOver();
+      }
     }
     else {
       // turn selected cards face down
@@ -206,16 +260,22 @@ App.GameState = {
     return (selectedCards[0].data.pattern === selectedCards[1].data.pattern);
   },
   gameOver: function() {
-    this.saveStorage();
+    // remove timer
+    this.game.time.events.remove(this.gameTimer);
 
-    if(this.cards.countLiving() === 0) {
+    // clear local storage
+    localStorage.clear();
 
-      // clear local storage
-      localStorage.clear();
-
-      // start complete state
-      this.game.state.start('CompleteState', true, false, this.score);
-    }
+    // start complete state
+    //this.game.state.start('CompleteState', true, false, this.score);
+    this.game.state.start(
+      'CompleteState', 
+      true, 
+      false, 
+      { 
+        "score": this.score, 
+        "elapsedTime": this.elapsedTime 
+      });
   },
   updateScore: function(value) {
 
@@ -253,6 +313,7 @@ App.GameState = {
   },
   saveStorage: function() {
     this.storage.score = this.score;
+    this.storage.elapsedTime = this.elapsedTime;
 
     localStorage.setItem('storage', JSON.stringify(this.storage));
   }
