@@ -16,6 +16,7 @@ App.GameState = {
     this.selectedCards = [];
     this.score = 0;
     this.elapsedTime = 0;
+    this.clicks = 0;
 
     this.storage = {};
 
@@ -34,6 +35,7 @@ App.GameState = {
     this.deck = this.storage.deck;
     this.score = this.storage.score;
     this.elapsedTime = this.storage.elapsedTime;
+    this.clicks = this.storage.clicks;
 
     this.createUI();
 
@@ -157,6 +159,10 @@ App.GameState = {
 
     if(this.uiBlocked || this.selectedCard.data.flipped || this.selectedCard.data.isFlipping) return;
 
+    this.clicks++;
+
+    console.log('clicks', this.clicks);
+
     this.uiBlocked = true;
     this.selectedCard.data.isFlipping = true;
 
@@ -273,6 +279,7 @@ App.GameState = {
       true, 
       false, 
       { 
+        "clicks": this.clicks,
         "score": this.score, 
         "elapsedTime": this.elapsedTime 
       });
@@ -300,7 +307,8 @@ App.GameState = {
       deck: this.deck,
       removedCards: [],
       elapsedTime: 0,
-      score: 0
+      score: 0,
+      clicks: 0
     };
 
     var tempStorage = localStorage.getItem('storage');
@@ -314,6 +322,7 @@ App.GameState = {
   saveStorage: function() {
     this.storage.score = this.score;
     this.storage.elapsedTime = this.elapsedTime;
+    this.storage.clicks = this.clicks;
 
     localStorage.setItem('storage', JSON.stringify(this.storage));
   }
