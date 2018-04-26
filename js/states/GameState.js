@@ -11,10 +11,12 @@ App.GameState = {
     this.GRID_ROWS = 4;
     this.GRID_COLUMNS = 3;
     this.MAX_SECONDS = 60;
+    this.SCORE_MULTIPLIER = 1;
 
     this.deck = [10,12,24,36,38,50,10,12,24,36,38,50];
     this.selectedCards = [];
     this.score = 0;
+    this.scoreMultiplier = 1;
     this.elapsedTime = 0;
     this.clicks = 0;
 
@@ -36,6 +38,7 @@ App.GameState = {
     this.score = this.storage.score;
     this.elapsedTime = this.storage.elapsedTime;
     this.clicks = this.storage.clicks;
+    this.scoreMultiplier = this.storage.scoreMultiplier;
 
     this.createUI();
 
@@ -159,9 +162,8 @@ App.GameState = {
 
     if(this.uiBlocked || this.selectedCard.data.flipped || this.selectedCard.data.isFlipping) return;
 
+    // increment clicks
     this.clicks++;
-
-    console.log('clicks', this.clicks);
 
     this.uiBlocked = true;
     this.selectedCard.data.isFlipping = true;
@@ -256,6 +258,9 @@ App.GameState = {
         flipTween.start();
 
       }, this);
+
+      // reset score multiplier
+      this.scoreMultiplier = this.SCORE_MULTIPLIER;
     }
 
     // clear selected cards
@@ -284,9 +289,15 @@ App.GameState = {
       });
   },
   updateScore: function(value) {
-
     this.scores.removeAll();
-    this.score += value;
+
+    // increment score
+    this.score += value * this.scoreMultiplier;
+
+    // increment score multiplier
+    if(value > 0) {
+      this.scoreMultiplier++;
+    }
 
     var score_numbers = this.score
       .toString()
@@ -307,7 +318,8 @@ App.GameState = {
       removedCards: [],
       elapsedTime: 0,
       score: 0,
-      clicks: 0
+      clicks: 0,
+      scoreMultiplier: this.SCORE_MULTIPLIER
     };
 
     var tempStorage = localStorage.getItem('storage');
@@ -322,6 +334,7 @@ App.GameState = {
     this.storage.score = this.score;
     this.storage.elapsedTime = this.elapsedTime;
     this.storage.clicks = this.clicks;
+    this.storage.scoreMultiplier = this.scoreMultiplier;
 
     localStorage.setItem('storage', JSON.stringify(this.storage));
   }
