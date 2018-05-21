@@ -98,9 +98,19 @@ App.GameState = {
     return obj;
   },
   createUI: function() {
-    this.text_score_small = this.add.sprite(0, 0, 'text_score_small');
-    this.text_dots_small = this.add.sprite(0, 0, 'text_dots_small').alignTo(this.text_score_small, Phaser.RIGHT_CENTER, 0);
+    //this.text_score_small = this.add.sprite(0, 0, 'text_score_small');
+    //this.text_dots_small = this.add.sprite(0, 0, 'text_dots_small').alignTo(this.text_score_small, Phaser.RIGHT_CENTER, 0);
     //this.text_score = this.add.sprite(0, 0, 'text_' + this.score + '_small').alignTo(this.text_dots_small, Phaser.RIGHT_CENTER, 0);
+
+    var style = { align: 'left', font: '24px Pattaya', fill: '#fff' };
+
+    this.score_label = this.add.text(5, 0, 'Score: 0', style);
+    this.score_label.stroke = '#E86A17';
+    this.score_label.strokeThickness = 8;
+
+    this.hi_score_label = this.add.text(this.game.width / 2, 0, 'Hi-Score: 0', style);
+    this.hi_score_label.stroke = '#E86A17';
+    this.hi_score_label.strokeThickness = 8;
 
     this.updateScore(0);
   },
@@ -299,18 +309,20 @@ App.GameState = {
       this.scoreMultiplier++;
     }
 
-    var score_numbers = this.score
-      .toString()
-      .split('')
-      .map(function(item, index){
-        return parseInt(item);
-      });
+    // var score_numbers = this.score
+    //   .toString()
+    //   .split('')
+    //   .map(function(item, index){
+    //     return parseInt(item);
+    //   });
 
-    var text_number;
-    score_numbers.forEach(function(item, index){
-      text_number = this.add.sprite(0, 0, 'text_' + item + '_small').alignTo(this.text_dots_small, Phaser.RIGHT_CENTER, index * 25);
-      this.scores.add(text_number);
-    }, this);
+    // var text_number;
+    // score_numbers.forEach(function(item, index){
+    //   text_number = this.add.sprite(0, 0, 'text_' + item + '_small').alignTo(this.text_dots_small, Phaser.RIGHT_CENTER, index * 25);
+    //   this.scores.add(text_number);
+    // }, this);
+
+    this.score_label.setText('Score: ' + this.score);
   },
   getStorage: function() {
     var storage = {

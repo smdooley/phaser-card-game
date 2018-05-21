@@ -8,4 +8,13 @@ App.game.state.add('GameState', App.GameState);
 App.game.state.add('CompleteState', App.CompleteState);
 App.game.state.add('GameOverState', App.GameOverState);
 
-App.game.state.start('BootState');
+//App.game.state.start('BootState');
+App.game.state.start(
+    'CompleteState', 
+    true, 
+    false, 
+    { 
+      "clicks": 0,
+      "score": 0, 
+      "elapsedTime": 0
+    });
