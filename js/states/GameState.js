@@ -104,11 +104,11 @@ App.GameState = {
 
     var style = { align: 'left', font: '24px Pattaya', fill: '#fff' };
 
-    this.score_label = this.add.text(5, 0, 'Score: 0', style);
+    this.score_label = this.add.text(5, 0, 'SCORE: 0', style);
     this.score_label.stroke = '#E86A17';
     this.score_label.strokeThickness = 8;
 
-    this.hi_score_label = this.add.text(this.game.width / 2, 0, 'Hi-Score: 0', style);
+    this.hi_score_label = this.add.text(this.game.width / 2, 0, 'HI-SCORE: 0', style);
     this.hi_score_label.stroke = '#E86A17';
     this.hi_score_label.strokeThickness = 8;
 
@@ -322,7 +322,7 @@ App.GameState = {
     //   this.scores.add(text_number);
     // }, this);
 
-    this.score_label.setText('Score: ' + this.score);
+    this.score_label.setText('SCORE: ' + this.score);
   },
   getStorage: function() {
     var storage = {
