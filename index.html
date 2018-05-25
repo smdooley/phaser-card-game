@@ -8,8 +8,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link href="https://fonts.googleapis.com/css?family=Pattaya" rel="stylesheet">
+
+    <style>
+      .font-preload {
+        font-family: 'Pattaya', sans-serif;
+        position: absolute;
+        left: -9999px;
+      }
+    </style>
 </head>
 <body>
+  <div class="font-preload">.</div>
+
   <script src="js/phaser.min.js"></script>
 
   <script src="js/plugins/modal.js"></script>
