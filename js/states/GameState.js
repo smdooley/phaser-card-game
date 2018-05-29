@@ -114,7 +114,7 @@ App.GameState = {
 
     this.updateScore(0);
 
-    this.icon_restart = this.add.sprite(this.game.width - 64, 10 + 32, 'icon_restart');
+    this.icon_restart = this.add.sprite(this.game.width - 32, 26, 'icon_restart');
     this.icon_restart.anchor.setTo(0.5);
     this.icon_restart.inputEnabled = true;
     this.icon_restart.events.onInputDown.add(this.restart, this);
