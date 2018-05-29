@@ -108,11 +108,19 @@ App.GameState = {
     this.score_label.stroke = '#E86A17';
     this.score_label.strokeThickness = 8;
 
-    this.hi_score_label = this.add.text(this.game.width / 2, 0, 'HI-SCORE: 0', style);
+    this.hi_score_label = this.add.text(this.game.width / 2 - 30, 0, 'HI-SCORE: 0', style);
     this.hi_score_label.stroke = '#E86A17';
     this.hi_score_label.strokeThickness = 8;
 
     this.updateScore(0);
+
+    this.icon_restart = this.add.sprite(this.game.width - 64, 10 + 32, 'icon_restart');
+    this.icon_restart.anchor.setTo(0.5);
+    this.icon_restart.inputEnabled = true;
+    this.icon_restart.events.onInputDown.add(this.restart, this);
+  },
+  restart: function() {
+    this.game.state.start('GameState', true, false);
   },
   shuffle: function(array) {
     var counter = array.length, temp, index;
@@ -139,7 +147,7 @@ App.GameState = {
     for(i =0; i < this.deck.length; i++) {
       card = this.add.sprite(
         (this.CARD_WIDTH + this.CARD_SPACING) * (i % 4) + this.CARD_SPACING + this.CARD_WIDTH / 2,
-        (this.CARD_HEIGHT + this.CARD_SPACING) * Math.floor(i / 4) + this.CARD_SPACING + this.CARD_HEIGHT / 2,
+        ((this.CARD_HEIGHT + this.CARD_SPACING) * Math.floor(i / 4) + this.CARD_SPACING + this.CARD_HEIGHT / 2) + 50,
         'deck'
       );
 

@@ -9,6 +9,7 @@ App.CompleteState = {
     // text_gameover.anchor.setTo(0.5);
 
     var style = { align: 'center', font: '32px Pattaya', fill: '#fff' };
+    
     var text_gameover = this.add.text(this.game.world.centerX, this.game.world.centerY - 32, 'CONGRATULATIONS', style);
     text_gameover.anchor.setTo(0.5);
     text_gameover.stroke = '#E86A17';
@@ -40,6 +41,6 @@ App.CompleteState = {
 
   },
   restart: function() {
-    this.game.state.start('GameState');
+    this.game.state.start('GameState', true, false);
   }
 }

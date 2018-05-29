@@ -18,6 +18,6 @@ App.GameOverState = {
 
   },
   restart: function() {
-    this.game.state.start('GameState');
+    this.game.state.start('GameState', true, false);
   }
 }
