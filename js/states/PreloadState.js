@@ -38,6 +38,8 @@ App.PreloadState = {
     this.load.image('text_score_small', 'assets/images/hud/text_score_small.png');
     this.load.image('text_timeup', 'assets/images/hud/text_timeup.png');
 
+    this.load.image("profile_photo", App.profile.photo);
+
     this.load.audio('card_flip', ['assets/audio/240776__f4ngy__card-flip.mp3', 'assets/audio/240776__f4ngy__card-flip.ogg'])
   },
   create: function() {

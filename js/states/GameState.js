@@ -23,6 +23,12 @@ App.GameState = {
     this.storage = {};
 
     this.cardFlip = this.add.audio('card_flip');
+
+    FBInstant.player.getDataAsync(['score']).then(function (data) {
+        if (typeof data['score'] !== 'undefined') {
+            App.profile.bestScore = data['score'];
+        }
+    });
   },
   create: function() {
     this.cards = this.add.group();
@@ -111,6 +117,10 @@ App.GameState = {
     this.hi_score_label = this.add.text(this.game.width / 2, 0, 'HI-SCORE: 0', style);
     this.hi_score_label.stroke = '#E86A17';
     this.hi_score_label.strokeThickness = 8;
+
+      // CORS error
+    //this.profile_photo = this.add.image(0, 0, "profile_photo");
+    //this.profile_photo.anchor.setTo(0.5);
 
     this.updateScore(0);
   },
