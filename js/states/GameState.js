@@ -15,12 +15,13 @@ App.GameState = {
 
     this.deck = [10,12,24,36,38,50,10,12,24,36,38,50];
     this.selectedCards = [];
+    this.removedCards = [],
     this.score = 0;
     this.scoreMultiplier = 1;
     this.elapsedTime = 0;
     this.clicks = 0;
 
-    this.storage = {};
+    // this.storage = {};
 
     this.cardFlip = this.add.audio('card_flip');
 
@@ -38,20 +39,20 @@ App.GameState = {
 
     this.shuffle(this.deck);
 
-    this.storage = this.getStorage();
+    // this.storage = this.getStorage();
 
-    this.deck = this.storage.deck;
-    this.score = this.storage.score;
-    this.elapsedTime = this.storage.elapsedTime;
-    this.clicks = this.storage.clicks;
-    this.scoreMultiplier = this.storage.scoreMultiplier;
+    // this.deck = this.storage.deck;
+    // this.score = this.storage.score;
+    // this.elapsedTime = this.storage.elapsedTime;
+    // this.clicks = this.storage.clicks;
+    // this.scoreMultiplier = this.storage.scoreMultiplier;
 
     this.createUI();
 
-    this.storage.deck = this.deck;
+    // this.storage.deck = this.deck;
 
     this.deal();
-    this.removeCards();
+    // this.removeCards();
   },
   update: function() {
 
@@ -61,7 +62,7 @@ App.GameState = {
     this.elapsedTime++;
     
     // save elapsed time
-    this.saveStorage();
+    // this.saveStorage();
 
     if(this.elapsedTime > this.MAX_SECONDS) {
       this.gameOver();
@@ -104,9 +105,6 @@ App.GameState = {
     return obj;
   },
   createUI: function() {
-    //this.text_score_small = this.add.sprite(0, 0, 'text_score_small');
-    //this.text_dots_small = this.add.sprite(0, 0, 'text_dots_small').alignTo(this.text_score_small, Phaser.RIGHT_CENTER, 0);
-    //this.text_score = this.add.sprite(0, 0, 'text_' + this.score + '_small').alignTo(this.text_dots_small, Phaser.RIGHT_CENTER, 0);
 
     var style = { align: 'left', font: '24px Pattaya', fill: '#fff' };
 
@@ -114,13 +112,12 @@ App.GameState = {
     this.score_label.stroke = '#E86A17';
     this.score_label.strokeThickness = 8;
 
-    this.hi_score_label = this.add.text(this.game.width / 2, 0, 'HI-SCORE: 0', style);
+    this.hi_score_label = this.add.text(this.game.width / 2, 0, 'HI-SCORE: ' + App.profile.bestScore, style);
     this.hi_score_label.stroke = '#E86A17';
     this.hi_score_label.strokeThickness = 8;
 
-      // CORS error
-    //this.profile_photo = this.add.image(0, 0, "profile_photo");
-    //this.profile_photo.anchor.setTo(0.5);
+    // this.profile_photo = this.add.image(0, 0, "profile_photo");
+    // this.profile_photo.anchor.setTo(0.5);
 
     this.updateScore(0);
   },
@@ -170,8 +167,8 @@ App.GameState = {
   removeCards: function() {
     var i, index, card;
 
-    for(i = 0; i < this.storage.removedCards.length; i++) {
-      index = this.storage.removedCards[i];
+    for(i = 0; i < this.removedCards.length; i++) {
+      index = this.removedCards[i];
       card = this.cards.children[index];
 
       card.kill();
@@ -233,7 +230,7 @@ App.GameState = {
 
       // remove selected cards
       this.selectedCards.forEach(function(card){
-        this.storage.removedCards.push(card.data.index);
+        this.removedCards.push(card.data.index);
         card.kill();
       }, this);
 
@@ -295,7 +292,7 @@ App.GameState = {
     this.game.time.events.remove(this.gameTimer);
 
     // clear local storage
-    localStorage.clear();
+    // localStorage.clear();
 
     // start complete state
     this.game.state.start(
@@ -318,19 +315,6 @@ App.GameState = {
     if(value > 0) {
       this.scoreMultiplier++;
     }
-
-    // var score_numbers = this.score
-    //   .toString()
-    //   .split('')
-    //   .map(function(item, index){
-    //     return parseInt(item);
-    //   });
-
-    // var text_number;
-    // score_numbers.forEach(function(item, index){
-    //   text_number = this.add.sprite(0, 0, 'text_' + item + '_small').alignTo(this.text_dots_small, Phaser.RIGHT_CENTER, index * 25);
-    //   this.scores.add(text_number);
-    // }, this);
 
     this.score_label.setText('SCORE: ' + this.score);
   },
