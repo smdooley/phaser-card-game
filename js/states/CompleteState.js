@@ -12,7 +12,7 @@ App.CompleteState = {
         // Update player's best score on the leaderboard
         FBInstant.getLeaderboardAsync('global_leaderboard')
             .then(leaderboard => {
-                console.log("retrieved leaderboard: " + leaderboard.getName());
+                //console.log("retrieved leaderboard: " + leaderboard.getName());
                 return leaderboard.setScoreAsync(this.score);
             })
             .then(() => console.log("Score saved: " + this.score))
@@ -22,10 +22,10 @@ App.CompleteState = {
         FBInstant.getLeaderboardAsync('global_leaderboard')
             .then(leaderboard => leaderboard.getEntriesAsync(3, 0))
             .then(entries => {
-                console.log('TOP SCORES');
-                for (var i = 0; i < entries.length; i++) {
-                    console.log("#" + entries[i].getRank() + " " + entries[i].getPlayer().getName() + ": " + entries[i].getScore());
-                }
+                //console.log('TOP SCORES');
+                // for (var i = 0; i < entries.length; i++) {
+                //     console.log("#" + entries[i].getRank() + " " + entries[i].getPlayer().getName() + ": " + entries[i].getScore());
+                // }
             })
             .catch(error => console.error(error));
     },

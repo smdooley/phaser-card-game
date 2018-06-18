@@ -2,7 +2,6 @@ var App = App || {};
 
 App.GameOverState = {
   init: function() {
-    console.log('GameOverState', 'init');
   },
   create: function() {
     var style = { align: 'center', font: '32px Pattaya', fill: '#fff' };

@@ -2,8 +2,6 @@ var App = App || {};
 
 App.BootState = {
   init: function() {
-    console.log('BootState', 'init');
-
     //loading screen will have a white background
     this.game.stage.backgroundColor = '#000';
 

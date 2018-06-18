@@ -1,4 +1,4 @@
-// https://www.facebook.com/embed/instantgames/219864452127337/player?game_url=https%3A%2F%2Flocalhost%3A44397
+// https://www.facebook.com/embed/instantgames/219864452127337/player?game_url=https%3A%2F%2Flocalhost%3A3000
 
 var App = App || {};
 
@@ -21,9 +21,6 @@ App.profile = {
 FBInstant.initializeAsync().then(function() {
     FBInstant.setLoadingProgress(100);
     FBInstant.startGameAsync().then(function() {
-
-        console.log(FBInstant.player);
-
         App.profile.name = FBInstant.player.getName();
         App.profile.photo = FBInstant.player.getPhoto();
 
