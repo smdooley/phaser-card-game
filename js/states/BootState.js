@@ -11,6 +11,8 @@ App.BootState = {
     //have the game centered horizontally
     this.scale.pageAlignHorizontally = true;
     this.scale.pageAlignVertically = true;
+
+    this.game.storage = new Storage(this.game.settings.storagePrefix);
   },
   preload: function() {
 

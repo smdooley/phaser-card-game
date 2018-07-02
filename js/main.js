@@ -2,16 +2,6 @@
 
 var App = App || {};
 
-//App.game = new Phaser.Game(480, 720, Phaser.AUTO);
-
-//App.game.state.add('BootState', App.BootState);
-//App.game.state.add('PreloadState', App.PreloadState);
-//App.game.state.add('GameState', App.GameState);
-//App.game.state.add('CompleteState', App.CompleteState);
-//App.game.state.add('GameOverState', App.GameOverState);
-
-//App.game.state.start('BootState');
-
 App.profile = {
     name: '',
     photo: '',
@@ -27,8 +17,13 @@ FBInstant.initializeAsync().then(function() {
         // Setup Phaser
         App.game = new Phaser.Game(480, 720, Phaser.AUTO);
 
+        App.game.settings = {
+            'storagePrefix': 'pcg_'
+        };
+
         App.game.state.add('BootState', App.BootState);
         App.game.state.add('PreloadState', App.PreloadState);
+        App.game.state.add('LevelState', App.LevelState);
         App.game.state.add('GameState', App.GameState);
         App.game.state.add('CompleteState', App.CompleteState);
         App.game.state.add('GameOverState', App.GameOverState);
