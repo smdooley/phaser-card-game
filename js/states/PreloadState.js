@@ -28,6 +28,8 @@ App.PreloadState = {
     // this.load.image('text_8_small', 'assets/images/hud/text_8_small.png');
     // this.load.image('text_9_small', 'assets/images/hud/text_9_small.png');
 
+    this.load.image('level_star', 'assets/images/hud/level_star.png');
+
     this.load.image('text_dots', 'assets/images/hud/text_dots.png');
     this.load.image('text_dots_small', 'assets/images/hud/text_dots_small.png');
     this.load.image('text_gameover', 'assets/images/hud/text_gameover.png');

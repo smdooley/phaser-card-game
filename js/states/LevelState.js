@@ -35,6 +35,12 @@ App.LevelState = {
     for (var i = 0; i < levels.length; i++) {
         var xx = 35 + (i % 4) * 106;
         var yy = 150 + Math.floor(i / 4) * 125;
+
+        if(levels[i].unlocked) {
+            for(var j = 0; j < levels.length; j++) {
+                App.game.add.image(xx + 14, yy + 45, 'level_star');
+            }
+        }
     }
   }
 };
