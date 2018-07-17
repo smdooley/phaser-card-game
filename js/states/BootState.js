@@ -3,7 +3,7 @@ var App = App || {};
 App.BootState = {
   init: function() {
     //loading screen will have a white background
-    this.game.stage.backgroundColor = '#000';
+    this.game.stage.backgroundColor = '#FFF';
 
     //scaling options
     this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
