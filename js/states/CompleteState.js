@@ -48,6 +48,6 @@ App.CompleteState = {
 
     },
     restart: function () {
-        this.game.state.start('GameState');
+        this.game.state.start('LevelState');
     }
 };

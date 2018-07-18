@@ -16,7 +16,9 @@ App.GameState = {
     this.MAX_SECONDS = 60;
     this.SCORE_MULTIPLIER = 1;
 
-    this.level = data.level
+    this.session = {
+      'level': data.level
+    };
 
     this.deck = [10,12,24,36,38,50,10,12,24,36,38,50];
     this.selectedCards = [];
@@ -299,6 +301,8 @@ App.GameState = {
     // clear local storage
     // localStorage.clear();
 
+    this.updateLevelRecord();
+
     // start complete state
     this.game.state.start(
       'CompleteState', 
@@ -348,5 +352,14 @@ App.GameState = {
     this.storage.scoreMultiplier = this.scoreMultiplier;
 
     localStorage.setItem('storage', JSON.stringify(this.storage));
+  },
+  updateLevelRecord: function() {
+    var levels = JSON.parse(App.game.storage.getItem('levels'));
+
+    if(this.session.level < levels.length) {
+      levels[this.session.level].unlocked = true;
+    }
+
+    App.game.storage.setItem('levels', JSON.stringify(levels));
   }
 };
