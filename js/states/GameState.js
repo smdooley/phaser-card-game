@@ -1,7 +1,10 @@
 var App = App || {};
 
 App.GameState = {
-  init: function() {
+  init: function(data) {
+
+    console.log('GameState', data);
+
     this.CARD_WIDTH = 80;
     this.CARD_HEIGHT = 120;
     this.CARD_SPACING = 10;
@@ -12,6 +15,8 @@ App.GameState = {
     this.GRID_COLUMNS = 3;
     this.MAX_SECONDS = 60;
     this.SCORE_MULTIPLIER = 1;
+
+    this.level = data.level
 
     this.deck = [10,12,24,36,38,50,10,12,24,36,38,50];
     this.selectedCards = [];

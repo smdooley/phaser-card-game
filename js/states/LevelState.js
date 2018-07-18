@@ -53,6 +53,6 @@ App.LevelState = {
     }
   },
   startLevel: function(button) {
-    this.game.state.start('GameState', true, false, button.level+1);
+    this.game.state.start('GameState', true, false, { level: button.level+1 });
   }
 };
