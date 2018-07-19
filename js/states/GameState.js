@@ -3,8 +3,6 @@ var App = App || {};
 App.GameState = {
   init: function(data) {
 
-    console.log('data', data);
-
     data = data || { 'level': 0 };
 
     this.CARD_WIDTH = 80;
@@ -295,6 +293,7 @@ App.GameState = {
     this.uiBlocked = false;
   },
   matchPattern: function(selectedCards) {
+    // Check if selected cards match
     return (selectedCards[0].data.pattern === selectedCards[1].data.pattern);
   },
   gameOver: function() {
@@ -331,6 +330,7 @@ App.GameState = {
     this.score_label.setText('SCORE: ' + this.score);
   },
   getStorage: function() {
+    // OBSOLETE
     var storage = {
       deck: this.deck,
       removedCards: [],
@@ -349,6 +349,7 @@ App.GameState = {
     return storage;
   },
   saveStorage: function() {
+    // OBSOLETE
     this.storage.score = this.score;
     this.storage.elapsedTime = this.elapsedTime;
     this.storage.clicks = this.clicks;
