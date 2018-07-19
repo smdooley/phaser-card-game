@@ -3,7 +3,9 @@ var App = App || {};
 App.GameState = {
   init: function(data) {
 
-    console.log('GameState', data);
+    console.log('data', data);
+
+    data = data || { 'level': 0 };
 
     this.CARD_WIDTH = 80;
     this.CARD_HEIGHT = 120;
@@ -16,10 +18,6 @@ App.GameState = {
     this.MAX_SECONDS = 60;
     this.SCORE_MULTIPLIER = 1;
 
-    this.session = {
-      'level': data.level
-    };
-
     this.deck = [10,12,24,36,38,50,10,12,24,36,38,50];
     this.selectedCards = [];
     this.removedCards = [],
@@ -29,6 +27,10 @@ App.GameState = {
     this.clicks = 0;
 
     // this.storage = {};
+
+    this.session = {
+      'level': data.level
+    };
 
     this.cardFlip = this.add.audio('card_flip');
 
@@ -41,6 +43,12 @@ App.GameState = {
   create: function() {
     this.cards = this.add.group();
     this.scores = this.add.group();
+
+    this.gameData = JSON.parse(this.game.cache.getText('game_data'));
+
+    this.session.levelData = this.gameData.levels[this.session.level];
+
+    console.log('session', this.session);
 
     this.gameTimer = this.game.time.events.loop(Phaser.Timer.SECOND, this.tick, this);
 
@@ -68,10 +76,8 @@ App.GameState = {
     // update elapsed time
     this.elapsedTime++;
     
-    // save elapsed time
-    // this.saveStorage();
-
-    if(this.elapsedTime > this.MAX_SECONDS) {
+    // check if time limit exceeded
+      if(this.elapsedTime > this.session.levelData.time) { 
       this.gameOver();
     }
     else {
@@ -82,9 +88,6 @@ App.GameState = {
   updateClock: function() {
     // get remaining time
     var time = this.secondsToTime(this.elapsedTime);
-
-    // update time display
-    //this.timeLabel.text = "Time: " + time.m + ":" + time.s;
   },
   secondsToTime: function(seconds) {
     // round seconds for the following calculations
